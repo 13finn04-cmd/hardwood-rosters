@@ -1,5 +1,24 @@
 # Changes
 
+## 2026-11-23: Sim calibration to real college stats (calibrate-1123)
+
+Ratings tuned so the game's own AI-game sim (_simAIGame in www/index.html, run headless and muted,
+60 games per team, 60% conference) gives each player per-game stats close to his real averages.
+Target = 2026-27 so far, shrunk toward 2025-26 by g/(g+8) (pc-model league.sqlite box scores);
+players without a prior season use 2026-27 only. 10 rounds of damped updates, best round kept per player.
+
+- Minutes: the engine hands out minutes by OVR rank, so OVRs were re-ordered within each team by real
+  minutes tier (team average OVR unchanged). Most moves are within +/-6; 65 moves of 7-10 (list in
+  calibrate/big_ovr.json). True freshmen were never lowered (keeps the ESPN 100 floors).
+- Skills: cre (points), 3pt (3PM/3P%), ins/mid (FG%), ft, drb/orb, pas/hdl, stl, blk.
+- Locked: Miles Byrd 85 (3PT kept >= 69), Devin Vanterpool 82 (no 2026-27 games yet, untouched).
+- Mean abs error, players with 3+ games (n=4207), before -> after: MIN 7.5->6.1, PTS 2.69->2.33,
+  REB 1.31->0.69, AST 0.62->0.44, STL 0.40->0.29, BLK 0.23->0.19, 3PM 0.47->0.38, FG% 11.0->8.9,
+  3P% 12.1->9.7, FT% 13.7->6.8 (percent points; rotation players 15+ mpg: FG% 6.2, 3P% 7.2, FT% 4.7).
+- Engine limits: top scorers top out near 16-20 ppg (usage share), and only ~8 players per team get
+  real minutes, so deep rotations and 25-ppg stars can't be matched by ratings alone.
+- Harness: calibrate/ (sim.js, targets.py, calib.py, report.py).
+
 ## 2026-11-23: Tester feedback pass
 
 Thanks to our Discord testers for this round.
