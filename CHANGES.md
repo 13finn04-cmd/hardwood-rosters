@@ -62,3 +62,12 @@ Mapping (same rule for every player)
   2P% for inside, FT% for free-throw). Used for: creation 1,967, 3-point 373, inside 90, FT 7.
 - Kept as before: athleticism, IQ, potential, durability, looks, name, position, year, everything else.
 - The game re-nudges sub-ratings so they compute to the OVR, keeping this shape.
+
+## 2026-11-23: Outlier calibration pass (calibrate/calib2.py)
+
+Focused extra rounds on the 543 players with the biggest sim-vs-real gaps (worst 300 by z-scored combined error, plus anyone off by 5+ pts, 3+ reb or 2+ ast). Ratings only, no game code.
+- Worst-300 combined error 2.53 -> 1.31 (pts MAE 5.7 -> 2.7, reb 1.9 -> 0.8, ast 0.9 -> 0.5, min 15.5 -> 7.8)
+- League MAE (fresh full sim): min 6.11 -> 5.76, pts 2.31 -> 2.16, ast 0.435 -> 0.428, 3PM 0.373 -> 0.356, FT 0.067 -> 0.066, reb 0.697 -> 0.707 (flat)
+- Minutes fixed through OVR order inside teams; team average OVR kept (max shift 0.27), freshmen floors kept, no field moved more than 25, 1,109 players touched
+- Locks held: Miles Byrd OVR 85 and 3PT 69, Devin Vanterpool OVR 82
+- About 45 players are engine-limited (star scoring cap, minute slots); ratings not pushed further for them
